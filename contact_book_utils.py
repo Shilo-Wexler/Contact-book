@@ -1,4 +1,6 @@
 import json
+import os
+from datetime import datetime
 def show_menu()->None:
     open_menu=  "* "*19
     option1 = "*  Enter 1 to Viewing contacts "
@@ -32,6 +34,7 @@ def add_contact()->dict:
     contact_num = input("Enter the contact phone number: ")
     new_contact = {contact_name: contact_num}
     save_contact(new_contact)
+    backup()
     return new_contact
 def pretty_print(contact_book:list[dict]|dict)->None:
     if type(contact_book) == list:
@@ -109,6 +112,16 @@ def get_name(contact:dict)->str:
     return next(iter(contact)).lower()
 def sort_contacts(book:list)->None:
     book.sort(key= get_name)
+def backup()->None:
+    folder_name = 'backups'
+    os.makedirs(folder_name, exist_ok=True)
+    time_stamp = datetime.now()
+    filename = f'Backups_{time_stamp}.json'
+    full_path = os.path.join(folder_name, filename)
+    with open('contacts.json' , 'r') as f:
+        data = json.load(f)
+    with open(full_path, 'w') as f:
+        json.dump(data, f, indent=2)
 
 
 
