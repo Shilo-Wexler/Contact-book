@@ -23,3 +23,9 @@ def save_contact(contact):
     except FileNotFoundError:
         with open("contacts.json" , "w") as f:
             json.dump([contact], f, indent= 2)
+def add_contact()->dict:
+    contact_name = input("Enter the contact name: ")
+    contact_num = input("Enter the contact phone number: ")
+    new_contact = {contact_name: contact_num}
+    save_contact(new_contact)
+    return new_contact
