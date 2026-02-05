@@ -3,15 +3,18 @@ def show_menu()->None:
     open_menu=  "* "*19
     option1 = "*  Enter 1 to Viewing contacts "
     option2 = "*  Enter 2 to Adding a new contact"
-    option3 = "*  Enter 2 Contact search "
+    option3 = "*  Enter 3 Contact search "
     option4 = "*  Enter 4 to Delete contact"
-    option5 = "*  Enter 'quit' to To exit "
+    option5 = "*  Enter 5 to Edit contact"
+    final = "*  Enter 'quit' To exit"
+
     print(open_menu)
     print(option1, " " * (34-len(option1)),"*")
     print(option2," " * (30-len(option2)),"*" )
     print(option3, " " * (34 - len(option3)),"*")
     print(option4, " " * (34 - len(option4)),"*")
     print(option5, " " * (34 - len(option5)),"*")
+    print(final, " " * (37 - len(option5)),"*")
     print(open_menu)
 def save_contact(contact):
     try:
@@ -56,6 +59,8 @@ def menu_selection(user_select:str)->None:
         search_contact()
     elif user_select == '4':
         delete_contact()
+    elif user_select == '5':
+        edit_contact()
     else:
         print("Enter selection from menu")
 def search_contact()->int|None:
@@ -83,3 +88,33 @@ def delete_contact()->None:
     with open("contacts.json", "w") as f:
         json.dump(book, f, indent= 2)
         print(f"{deleted_person} was successfully deleted")
+def edit_contact():
+    try:
+        contact_to_edit = search_contact()
+        with open("contacts.json", 'r') as f:
+            book = json.load(f)
+            person = book[contact_to_edit]
+            key = next(iter(person))
+            new_phone_number = input("Enter the contact phone number: ")
+            person[key] = new_phone_number
+            book[contact_to_edit] = person
+        with open("contacts.json", 'w') as f:
+            json.dump(book, f, indent= 2)
+        print("the new phone number has been update")
+    except TypeError:
+        return None
+
+
+
+
+
+
+
+
+
+while True:
+    show_menu()
+    user_selection = (input("Please enter your choice: "))
+    if user_selection == 'quit':
+        break
+    menu_selection(user_selection)
