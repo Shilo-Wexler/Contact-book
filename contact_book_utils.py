@@ -18,6 +18,9 @@ def show_menu()->None:
     print(option5, " " * (34 - len(option5)),"*")
     print(final, " " * (37 - len(option5)),"*")
     print(open_menu)
+
+
+
 def save_contact(contact)->None:
     try:
         with open("contacts.json", "r") as f:
@@ -29,6 +32,9 @@ def save_contact(contact)->None:
     except FileNotFoundError:
         with open("contacts.json" , "w") as f:
             json.dump([contact], f, indent= 2)
+
+
+
 def add_contact()->dict:
     contact_name = input("Enter the contact name: ")
     contact_num = input("Enter the contact phone number: ")
@@ -36,6 +42,9 @@ def add_contact()->dict:
     save_contact(new_contact)
     backup()
     return new_contact
+
+
+
 def pretty_print(contact_book:list[dict]|dict)->None:
     if type(contact_book) == list:
         for person in contact_book:
@@ -44,6 +53,9 @@ def pretty_print(contact_book:list[dict]|dict)->None:
     elif type(contact_book) == dict:
         for name, phone in contact_book.items():
             print(f"Name: {name}, Phone number: {phone}")
+
+
+
 def show_contacts()->list[dict]|None:
     try:
         with open("contacts.json", "r") as f:
@@ -55,6 +67,9 @@ def show_contacts()->list[dict]|None:
     except FileNotFoundError:
         print("You don't have any contacts yet. ")
         return None
+
+
+
 def menu_selection(user_select:str)->None:
     if user_select == '1':
         show_contacts()
@@ -68,6 +83,9 @@ def menu_selection(user_select:str)->None:
         edit_contact()
     else:
         print("Enter selection from menu")
+
+
+
 def search_contact()->int|None:
     try:
         with open("contacts.json", 'r') as f:
@@ -85,14 +103,21 @@ def search_contact()->int|None:
     except FileNotFoundError:
         print("You don't have any contacts yet. ")
         return None
+
+
+
 def delete_contact()->None:
     person_to_delete = search_contact()
-    with open("contacts.json", "r") as f:
-        book = json.load(f)
-        deleted_person = book.pop(person_to_delete)
-    with open("contacts.json", "w") as f:
-        json.dump(book, f, indent= 2)
-        print(f"{deleted_person} was successfully deleted")
+    if person_to_delete is not None:
+        with open("contacts.json", "r") as f:
+            book = json.load(f)
+            deleted_person = book.pop(person_to_delete)
+        with open("contacts.json", "w") as f:
+            json.dump(book, f, indent= 2)
+            print(f"{deleted_person} was successfully deleted")
+    return None
+
+
 def edit_contact()->None:
     try:
         contact_to_edit = search_contact()
@@ -108,10 +133,19 @@ def edit_contact()->None:
         print("the new phone number has been update")
     except TypeError:
         return None
+
+
+
 def get_name(contact:dict)->str:
     return next(iter(contact)).lower()
+
+
+
 def sort_contacts(book:list)->None:
     book.sort(key= get_name)
+
+
+
 def backup()->None:
     folder_name = 'backups'
     os.makedirs(folder_name, exist_ok=True)
@@ -122,11 +156,3 @@ def backup()->None:
         data = json.load(f)
     with open(full_path, 'w') as f:
         json.dump(data, f, indent=2)
-
-
-
-
-
-
-
-
