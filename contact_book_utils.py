@@ -75,3 +75,11 @@ def search_contact()->int|None:
     except FileNotFoundError:
         print("You don't have any contacts yet. ")
         return None
+def delete_contact()->None:
+    person_to_delete = search_contact()
+    with open("contacts.json", "r") as f:
+        book = json.load(f)
+        deleted_person = book.pop(person_to_delete)
+    with open("contacts.json", "w") as f:
+        json.dump(book, f, indent= 2)
+        print(f"{deleted_person} was successfully deleted")
