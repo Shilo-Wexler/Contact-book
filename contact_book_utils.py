@@ -47,3 +47,14 @@ def show_contacts()->list[dict]|None:
     except FileNotFoundError:
         print("You don't have any contacts yet. ")
         return None
+def menu_selection(user_select:str)->None:
+    if user_select == '1':
+        show_contacts()
+    elif user_select == '2':
+        add_contact()
+    elif user_select == '3':
+        search_contact()
+    elif user_select == '4':
+        delete_contact()
+    else:
+        print("Enter selection from menu")
