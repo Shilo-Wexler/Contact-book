@@ -29,3 +29,11 @@ def add_contact()->dict:
     new_contact = {contact_name: contact_num}
     save_contact(new_contact)
     return new_contact
+def pretty_print(contact_book:list[dict]|dict)->None:
+    if type(contact_book) == list:
+        for person in contact_book:
+            for name, phone in person.items():
+                print(f"Name: {name}, Phone number: {phone}")
+    elif type(contact_book) == dict:
+        for name, phone in contact_book.items():
+            print(f"Name: {name}, Phone number: {phone}")
