@@ -16,11 +16,12 @@ def show_menu()->None:
     print(option5, " " * (34 - len(option5)),"*")
     print(final, " " * (37 - len(option5)),"*")
     print(open_menu)
-def save_contact(contact):
+def save_contact(contact)->None:
     try:
         with open("contacts.json", "r") as f:
             book = json.load(f)
             book.append(contact)
+            sort_contacts(book)
         with open("contacts.json" , "w") as f:
             json.dump(book, f, indent= 2)
     except FileNotFoundError:
@@ -44,6 +45,7 @@ def show_contacts()->list[dict]|None:
     try:
         with open("contacts.json", "r") as f:
             book = json.load(f)
+
             print(f'You have {len(book)} contacts')
             pretty_print(book)
             return book
@@ -88,7 +90,7 @@ def delete_contact()->None:
     with open("contacts.json", "w") as f:
         json.dump(book, f, indent= 2)
         print(f"{deleted_person} was successfully deleted")
-def edit_contact():
+def edit_contact()->None:
     try:
         contact_to_edit = search_contact()
         with open("contacts.json", 'r') as f:
@@ -103,7 +105,10 @@ def edit_contact():
         print("the new phone number has been update")
     except TypeError:
         return None
-
+def get_name(contact:dict)->str:
+    return next(iter(contact)).lower()
+def sort_contacts(book:list)->None:
+    book.sort(key= get_name)
 
 
 
