@@ -58,3 +58,20 @@ def menu_selection(user_select:str)->None:
         delete_contact()
     else:
         print("Enter selection from menu")
+def search_contact()->int|None:
+    try:
+        with open("contacts.json", 'r') as f:
+            book = json.load(f)
+            person_select = input("Please enter the name of the person: ")
+            person_select = person_select.lower()
+            for index, person in enumerate(book):
+                name = next(iter(person))
+                search_lower_name = name.lower()
+                if search_lower_name == person_select:
+                    pretty_print(person)
+                    return index
+            print("You have no contacts with that name.")
+        return None
+    except FileNotFoundError:
+        print("You don't have any contacts yet. ")
+        return None
