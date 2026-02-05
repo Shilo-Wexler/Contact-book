@@ -37,3 +37,13 @@ def pretty_print(contact_book:list[dict]|dict)->None:
     elif type(contact_book) == dict:
         for name, phone in contact_book.items():
             print(f"Name: {name}, Phone number: {phone}")
+def show_contacts()->list[dict]|None:
+    try:
+        with open("contacts.json", "r") as f:
+            book = json.load(f)
+            print(f'You have {len(book)} contacts')
+            pretty_print(book)
+            return book
+    except FileNotFoundError:
+        print("You don't have any contacts yet. ")
+        return None
